@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Preconnect & DNS-Prefetch for Performance -->
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NPE0BF1T0K"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-NPE0BF1T0K');
+  </script>
+
+  <!-- Webmaster Verification -->
+  <meta name="msvalidate.01" content="33B165908C314900E01BBA5B888362ED" />
+
+  <!-- Favicon & PWA Icons -->
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Tapu Takip" />
+
+  <!-- Primary SEO Meta Tags -->
+  <title>Tapu Takip Merkezi | 81 İlde Resmi Tapu, Vergi ve Miras Takibi</title>
+  <meta name="description"
+    content="Türkiye genelinde tapu devri, veraset intikal, iskan sorgulama ve vergi ilişik kesme hizmetleri. 81 ilde profesyonel gayrimenkul danışmanlığı." />
+  <meta name="keywords"
+    content="tapu takip, tapu devri, veraset intikal, iskan sorgulama, tapu randevu, vergi ilişik kesme, haciz kaldırma, gayrimenkul danışmanlık" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <link rel="canonical" href="https://www.taputakipmerkezi.com.tr" />
+  <link rel="alternate" hreflang="tr" href="https://www.taputakipmerkezi.com.tr" />
+  <link rel="alternate" hreflang="x-default" href="https://www.taputakipmerkezi.com.tr" />
+
+  <!-- Geo Meta Tags (Turkey Central HQ) -->
+  <meta name="geo.region" content="TR-01" />
+  <meta name="geo.placename" content="Türkiye" />
+  <meta name="geo.position" content="36.9914;35.3308" />
+  <meta name="ICBM" content="36.9914, 35.3308" />
+
+  <!-- Author & Publisher -->
+  <meta name="author" content="Tapu Takip Merkezi" />
+  <meta name="publisher" content="Tapu Takip Merkezi" />
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:site_name" content="Tapu Takip Merkezi" />
+  <meta property="og:title" content="Tapu Takip Merkezi | 81 İlde Resmi Tapu ve Vergi İşlemleri Takibi" />
+  <meta property="og:description"
+    content="Türkiye genelinde tapu devri, veraset intikal, iskan sorgulama ve vergi ilişik kesme hizmetleri. 81 ilde uzman danışmanlık." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.taputakipmerkezi.com.tr" />
+  <meta property="og:image" content="https://www.taputakipmerkezi.com.tr/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Tapu Takip Merkezi - 81 İlde Resmi Tapu ve Vergi İşlemleri Takibi" />
+  <meta property="og:locale" content="tr_TR" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Tapu Takip Merkezi | Resmi Tapu Takip Platformu" />
+  <meta name="twitter:description"
+    content="Türkiye genelinde tapu devri, veraset intikal, iskan sorgulama ve resmi gayrimenkul süreç takibi." />
+  <meta name="twitter:image" content="https://www.taputakipmerkezi.com.tr/og-image.png" />
+  <meta name="twitter:image:alt" content="Tapu Takip Merkezi - Resmi Tapu Takip Platformu" />
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('SW registered:', reg.scope))
+          .catch(err => console.log('SW registration failed:', err));
+      });
+    }
+  </script>
+</body>
+
+</html>

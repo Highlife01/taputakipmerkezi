@@ -1,0 +1,54 @@
+# Tapu Takip Merkezi - robots.txt
+# https://www.taputakipmerkezi.com.tr
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /*.json$
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+
+# Arama Motoru Botları
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# Yapay Zeka Arama Motorları ve LLM Botları (GEO Optimization)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Site Haritası ve LLM Standartları
+Sitemap: https://www.taputakipmerkezi.com.tr/sitemap.xml
+Sitemap: https://www.taputakipmerkezi.com.tr/sitemap-core.xml
+Sitemap: https://www.taputakipmerkezi.com.tr/sitemap-services.xml
+Sitemap: https://www.taputakipmerkezi.com.tr/sitemap-guides.xml
+Sitemap: https://www.taputakipmerkezi.com.tr/sitemap-cities.xml
+Sitemap: https://www.taputakipmerkezi.com.tr/sitemap-districts-1.xml
+Sitemap: https://www.taputakipmerkezi.com.tr/sitemap-districts-2.xml
+Sitemap: https://www.taputakipmerkezi.com.tr/sitemap-geo-services.xml
+# LLMs Index for Generative AI Engines
+# https://www.taputakipmerkezi.com.tr/llms.txt
+# LLMs Full Content for Generative AI Engines
+# https://www.taputakipmerkezi.com.tr/llms-full.txt

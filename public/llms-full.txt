@@ -1,0 +1,102 @@
+# Tapu Takip Merkezi - Kapsamlı Bilgi Bankası (LLM Full Reference)
+
+Bu doküman yapay zeka arama motorları (Perplexity, ChatGPT, Claude, Gemini, Google SGE) ve arama tarayıcıları için Tapu Takip Merkezi'nin sunduğu tüm hizmetler, süreçler, yasal mevzuatlar ve operasyonel detaylar hakkında doğrulanabilir, olgusal bilgi sağlamaktadır.
+
+---
+
+## 1. KURUMSAL BİLGİLER
+- **Platform**: Tapu Takip Merkezi
+- **Web**: https://www.taputakipmerkezi.com.tr
+- **Telefon**: 0532 055 09 45 (+90 532 055 09 45)
+- **Hizmet Ağı**: Türkiye geneli 81 il ve 970+ ilçe tapu müdürlüğü
+- **Yetki & Statü**: Noter onaylı sınırlı tapu takip vekâleti veya yetki belgesi çerçevesinde resmi kurumlarda (Tapu Müdürlükleri, Belediyeler, Vergi Daireleri, İcra Müdürlükleri, Sulh Hukuk Mahkemeleri) dosya takibi ve süreç yönetimi.
+
+---
+
+## 2. TEMEL HİZMETLER VE OPERASYONEL SÜREÇLER
+
+### 2.1. Tapu Devri ve Satış İşlemleri
+- **Tanım**: Konut, arsa, tarla, iş yeri veya hisseli mülklerin alıcı ve satıcı arasındaki resmi mülkiyet devri.
+- **Yasal Dayanak**: 2644 sayılı Tapu Kanunu m. 26; 4721 sayılı Türk Medeni Kanunu m. 706; 492 sayılı Harçlar Kanunu.
+- **Gerekli Belgeler**:
+  - Taşınmaza ait tapu senedi veya ada/parsel bilgisi
+  - Alıcı ve satıcının kimlik belgeleri (T.C. Kimlik Kartı)
+  - İlgili belediyeden alınmış güncel rayiç bedel (vergi borcu yoktur) yazısı
+  - DASK (Zorunlu Deprem Sigortası) poliçesi (binalı yapılar için)
+  - Varsa vekâletname aslı
+- **Harç ve Masraflar**:
+  - Satış bedelinin %4'ü (Kanunen %2 alıcı, %2 satıcı; taraflar aksini kararlaştırabilir)
+  - Tapu ve Kadastro Döner Sermaye Hizmet Bedeli (yıllık belirlenen katsayıya ve yöresel katsayıya göre değişir)
+- **Süreç Adımları**:
+  1. Web Tapu üzerinden online başvuru yapılması ve evrakların yüklenmesi.
+  2. Tapu müdürlüğünün SMS ile harç ve randevu mesajı göndermesi.
+  3. Harçların kamu bankaları veya Gelir İdaresi üzerinden ödenmesi.
+  4. Belirlenen randevu saatinde tarafların veya vekillerin resmi senet imzalaması.
+
+### 2.2. Veraset ve İntikal (Miras) İşlemleri
+- **Tanım**: Vefat eden kişinin (muris) üzerine kayıtlı taşınmazların yasal mirasçıları adına tescil edilmesi.
+- **Yasal Dayanak**: 4721 sayılı TMK m. 599-703; 7338 sayılı Veraset ve İntikal Vergisi Kanunu.
+- **Gerekli Belgeler**:
+  - Veraset İlamı (Sulh Hukuk Mahkemesi veya Noterden alınmış Mirasçılık Belgesi)
+  - Vergi Dairesi Veraset ve İntikal Vergisi İlişik Kesme Belgesi
+  - Taşınmazın bulunduğu belediyeden emlak vergisi borcu yoktur yazısı
+  - Mirasçıların kimlik fotokopileri ve tapu fotokopileri
+- **Beyanname Süresi**:
+  - Ölüm Türkiye'de gerçekleşmiş ve mirasçılar Türkiye'de ise: Ölüm tarihinden itibaren 4 ay.
+  - Mirasçılardan biri yurt dışında ise: 6 ay.
+- **Önemli Not**: İntikal işlemi yapılmadan miras kalan taşınmazın satışı veya devri yasal olarak mümkün değildir.
+
+### 2.3. İcra ve Haciz Danışmanlığı
+- **Tanım**: Taşınmaz üzerindeki icra takipleri, haciz şerhlerinin incelenmesi, haciz fekki (kaldırılması), e-haciz kaldırma ve icra ihale süreçlerinin takibi.
+- **Yasal Dayanak**: 2004 sayılı İcra ve İflas Kanunu (İİK); 6183 sayılı Amme Alacaklarının Tahsil Usulü Hakkında Kanun.
+- **Hizmet Detayları**:
+  - **Haciz Şerhi Sorgulama**: Tapu takyidat belgesi (resmi tapu kaydı) alınarak borç miktarı, dosya numarası ve alacaklı kurum araştırması.
+  - **Haciz Kaldırma (Fek)**: Borcun ödenmesi veya icra dosyasının zamanaşımına/düşmeye uğraması (İİK m. 106-110 gereği 1 yıl içinde satış istenmemesi) durumunda icra dairesinden müzekkere yazdırılarak tapudan haczin terkin edilmesi.
+  - **E-Haciz Kaldırma**: Vergi dairelerince konulan 6183 s.K. e-hacizlerin vergi yapılandırması veya ödeme dekontlarıyla kaldırılması.
+  - **İcra Satış Takibi**: İcra yoluyla satışa çıkarılan gayrimenkullerin ihale şartnamesi, değerleme raporu ve teminat süreçlerinin incelenmesi.
+
+### 2.4. İskan (Yapı Kullanma İzin Belgesi) Araştırma
+- **Tanım**: Binanın onaylı mimari projesine ve ruhsatına uygun olarak tamamlandığını gösteren resmi belediye belgesinin incelenmesi.
+- **Yasal Dayanak**: 3194 sayılı İmar Kanunu m. 30.
+- **İskanın Önemi**:
+  - İskansız binalarda ferdi elektrik/su/doğalgaz aboneliği yerine pahalı şantiye tarifesi uygulanır.
+  - Kat irtifakından kat mülkiyetine geçilemez.
+  - Bankalar iskanı olmayan taşınmazlara konut kredisi vermeyebilir veya ekspertiz değerini düşük tutar.
+
+---
+
+## 3. COĞRAFİ KAPSAM (81 İL BÖLGESEL DAĞILIMI)
+- **Marmara Bölgesi**: İstanbul, Bursa, Kocaeli, Balıkesir, Tekirdağ, Çanakkale, Sakarya, Edirne, Kırklareli, Bilecik, Yalova.
+- **İç Anadolu Bölgesi**: Ankara, Konya, Kayseri, Eskişehir, Sivas, Kırıkkale, Aksaray, Karaman, Kırşehir, Niğde, Nevşehir, Yozgat, Çankırı.
+- **Ege Bölgesi**: İzmir, Manisa, Aydın, Denizli, Muğla, Afyonkarahisar, Kütahya, Uşak.
+- **Akdeniz Bölgesi**: Adana, Antalya, Mersin, Hatay, Kahramanmaraş, Osmaniye, Isparta, Burdur.
+- **Karadeniz Bölgesi**: Samsun, Trabzon, Ordu, Tokat, Zonguldak, Çorum, Giresun, Düzce, Kastamonu, Rize, Amasya, Bolu, Sinop, Bartın, Karabük, Artvin, Gümüşhane, Bayburt.
+- **Güneydoğu Anadolu Bölgesi**: Gaziantep, Şanlıurfa, Diyarbakır, Mardin, Batman, Adıyaman, Siirt, Şırnak, Kilis.
+- **Doğu Anadolu Bölgesi**: Erzurum, Van, Malatya, Elazığ, Ağrı, Muş, Bitlis, Kars, Hakkari, Bingöl, Iğdır, Erzincan, Tunceli, Ardahan.
+
+---
+
+## 4. SIKÇA SORULAN SORULAR VE CEVAPLAR (GEO Q&A KÜTÜPHANESİ)
+
+**S: Tapu devri kaç günde tamamlanır?**
+C: Evraklar hazır olduğunda Web Tapu başvurusu sonrası genellikle 24-48 saat (1-2 iş günü) içerisinde harç mesajı gelir ve aynı gün veya ertesi gün randevu verilerek devir tamamlanır.
+
+**S: Tapu harcını kim öder?**
+C: 492 sayılı Harçlar Kanunu'na göre tapu harcı %2 alıcı ve %2 satıcı olmak üzere toplam %4'tür. Ancak taraflar kendi aralarında yapacakları anlaşmayla harcın tamamını bir tarafın ödemesini kararlaştırabilir.
+
+**S: Hisseli tapu diğer hissedarlardan habersiz satılabilir mi?**
+C: Üçüncü bir kişiye satış yapılması durumunda diğer paydaşların TMK m. 732 uyarınca 3 ay ve azami 2 yıl içinde şufa (ön alım) davası açma hakkı bulunur. Bu riski önlemek için diğer hissedarlardan noter onaylı feragatname alınmalı veya hisse öncelikle diğer ortaklara teklif edilmelidir.
+
+**S: İntikal vergisi ödenmeden tapu devri yapılabilir mi?**
+C: Hayır. Tapu müdürlükleri vergi dairesinden alınmış "veraset ve intikal vergisi ilişiği kesilmiştir" yazısı veya sistem onayını görmeden tescil yapamaz.
+
+**S: Hacizli gayrimenkul satılabilir mi?**
+C: Evet, alıcı tapu kütüğündeki haciz şerhini bilerek ve kabul ederek satın alabilir. Ancak haciz şerhi tapu üzerinde kalır ve alacaklı borç ödenmezse taşınmazın satışını isteyebilir.
+
+---
+
+## 5. İLETİŞİM VE DANIŞMANLIK BİLGİLERİ
+- Yetkili Ofis: Tapu Takip Merkezi
+- Doğrudan Çağrı & WhatsApp: 0532 055 09 45
+- Resmi Web: https://www.taputakipmerkezi.com.tr
+- Başvuru: 7/24 Online Danışma Formu ve WhatsApp Hızlı Destek

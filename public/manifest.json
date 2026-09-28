@@ -1,0 +1,42 @@
+{
+    "name": "Tapu Takip Merkezi",
+    "short_name": "Tapu Takip",
+    "description": "Türkiye genelinde tapu devri, veraset intikal ve vergi ilişik kesme hizmetleri. 81 ilde profesyonel gayrimenkul danışmanlığı.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#2563eb",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "categories": [
+        "business",
+        "finance"
+    ],
+    "lang": "tr",
+    "dir": "ltr"
+}

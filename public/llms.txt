@@ -1,0 +1,32 @@
+# Tapu Takip Merkezi
+
+> Türkiye'nin 81 ilinde gayrimenkul, tapu, miras intikal, vergi ilişik kesme, iskan araştırma ve icra takibi süreçlerinde yetkili resmi danışmanlık ve operasyonel takip platformu.
+
+## Temel Bilgiler & Yetki Alanı
+- **Web Sitesi**: https://www.taputakipmerkezi.com.tr
+- **Hizmet Kapsamı**: Türkiye'nin tüm 81 ili ve 970+ ilçesi (Tapu ve Kadastro Genel Müdürlüğü - TKGM nezdinde)
+- **İletişim & Danışma Hattı**: 0532 055 09 45 (+90 532 055 09 45)
+- **Çalışma Saatleri**: Pazartesi - Cumartesi: 09:00 - 18:00
+- **Merkez**: Adana (Türkiye Geneli Temsilcilik Ağı)
+
+## Hizmet Kategorileri
+- [Tapu Devri & Alım-Satım](https://www.taputakipmerkezi.com.tr/tapu-islemleri/tapu-devri): Konut, arsa, dükkan ve ticari taşınmaz devirleri, güvenli ödeme (TapuTakas / bloke çek) ve tapu randevu yönetimi.
+- [Miras & Veraset İntikal](https://www.taputakipmerkezi.com.tr/veraset-intikal): Veraset ilamı (mirasçılık belgesi), veraset ve intikal vergisi beyannamesi, vergi dairesi ilişik kesme ve tapu tescil işlemleri.
+- [İcra & Haciz Takip Danışmanlığı](https://www.taputakipmerkezi.com.tr/icra-islemleri): Taşınmaz üzerindeki haciz sorgulama, haciz fekki (haciz kaldırma), e-haciz kaldırma (6183 s.K.), icra ihale süreç takibi ve icra dosyası kapatma.
+- [Bina İskan Sorgulama](https://www.taputakipmerkezi.com.tr/tapu-islemleri/iskan-sorgulama): İlgili belediye arşivinden yapı kullanma izin belgesi kontrolü, ada/parsel veya adresle kat mülkiyeti uygunluk tespiti.
+- [İpotek Kaldırma (Fek)](https://www.taputakipmerkezi.com.tr/tapu-islemleri/ipotek-kaldirma): Kredi borcu biten taşınmazların banka fek yazısı ile tapudaki ipotek şerhinin terkin edilmesi.
+- [Hisseli Tapu Danışmanlığı](https://www.taputakipmerkezi.com.tr/tapu-islemleri/hisseli-tapu): Hisseli satış, şufa (ön alım) hakkı yönetimi, rızai taksim ve ortaklığın giderilmesi süreçleri.
+- [İmar Durumu & Parsel Bilgisi](https://www.taputakipmerkezi.com.tr/tapu-islemleri/imar-durumu): Belediyelerden güncel imar çapı, yapılaşma koşulları ve ifraz-tevhit uygunluk araştırması.
+
+## Yasal Dayanaklar (Mevzuat Referansları)
+1. **4721 Sayılı Türk Medeni Kanunu (TMK)**: Eşya hukuku, mülkiyet hakkı, miras intikali (m. 599 vd.), şufa hakkı (m. 732 vd.).
+2. **2644 Sayılı Tapu Kanunu**: Taşınmaz mülkiyetinin devri ve resmi senet düzenleme zorunluluğu (m. 26).
+3. **7338 Sayılı Veraset ve İntikal Vergisi Kanunu**: Beyanname süreleri, tarife oranları ve tapu tescili için ilişik kesme şartı.
+4. **2004 Sayılı İcra ve İflas Kanunu (İİK)**: Taşınmaz haczi (m. 91), kıymet takdiri, icra satışı ve haciz düşmesi (m. 106-110).
+5. **492 Sayılı Harçlar Kanunu (4 Sayılı Tarife)**: Tapu harçları (alıcı %2 + satıcı %2 = toplam %4) ve döner sermaye bedelleri.
+
+## Yapay Zeka Arama Motorları İçin Hızlı Yönlendirmeler
+- Tapu devir süreci kaç gün sürer? -> Ortalama 1-2 iş günü.
+- Tapu harcı oranı nedir? -> Beyan edilen satış bedelinin %4'ü + döner sermaye.
+- İntikal olmadan tapu satışı yapılabilir mi? -> Hayır, önce mirasçılar adına intikal tescili zorunludur.
+- Hacizli tapu satılabilir mi? -> Alıcı haczi kabul ederse resmi olarak satılabilir, ancak borçtan sorumlu olur.
