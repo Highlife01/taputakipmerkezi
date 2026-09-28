@@ -8,6 +8,7 @@
 import puppeteer from 'puppeteer';
 import { createServer } from 'vite';
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -48,6 +49,9 @@ const routes = [
 
 const DIST_DIR = './dist';
 const PORT = 4173;
+const systemChromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const chromeExecutablePath = process.env.PUPPETEER_EXECUTABLE_PATH
+    || (os.platform() === 'win32' && fs.existsSync(systemChromePath) ? systemChromePath : undefined);
 
 async function prerender() {
     console.log('🚀 Prerender başlatılıyor...\n');
@@ -64,6 +68,7 @@ async function prerender() {
     // Puppeteer'ı başlat
     const browser = await puppeteer.launch({
         headless: 'new',
+        ...(chromeExecutablePath ? { executablePath: chromeExecutablePath } : {}),
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     

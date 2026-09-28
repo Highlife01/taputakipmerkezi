@@ -5,8 +5,10 @@ import path from "node:path";
 import puppeteer from "puppeteer";
 
 const executablePath = puppeteer.executablePath();
+const systemChromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+const hasSystemChrome = platform() === "win32" && existsSync(systemChromePath);
 
-if (!existsSync(executablePath)) {
+if (!hasSystemChrome && !existsSync(executablePath)) {
   rmSync(path.join(homedir(), ".cache", "puppeteer", "chrome"), {
     recursive: true,
     force: true,
