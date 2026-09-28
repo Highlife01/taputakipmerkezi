@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Download, X, Smartphone, Wifi, Bell, Share } from 'lucide-react';
+import { Download, X, Smartphone, Wifi, Share } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 
@@ -108,10 +108,7 @@ const InstallPWA = () => {
                             {/* Faydalar */}
                             <div className="flex flex-wrap gap-2 mb-4">
                                 <span className="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-full">
-                                    <Wifi size={12} /> Çevrimdışı
-                                </span>
-                                <span className="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-full">
-                                    <Bell size={12} /> Bildirimler
+                                    <Wifi size={12} /> Hızlı Erişim
                                 </span>
                             </div>
 

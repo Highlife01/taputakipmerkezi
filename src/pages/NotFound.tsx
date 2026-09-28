@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import SEO from "@/components/SEO";
 
 const NotFound = () => {
   const location = useLocation();
@@ -10,6 +11,12 @@ const NotFound = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
+      {/* noIndex: 404 sayfası arama motorları tarafından indekslenmemelidir */}
+      <SEO
+        title="Sayfa Bulunamadı (404)"
+        description="Aradığınız sayfa bulunamadı. Tapu Takip Merkezi ana sayfasından tüm tapu, vergi ve miras işlemlerine devam edebilirsiniz."
+        noIndex
+      />
       <div className="max-w-md w-full text-center space-y-8">
         <div className="bg-blue-600 text-white w-24 h-24 rounded-[2rem] flex items-center justify-center text-4xl font-black mx-auto shadow-2xl rotate-3">
           404

@@ -252,3 +252,35 @@ const totalUrls = coreUrls.length + serviceUrls.length + guideUrls.length + city
 console.log(`✅ Sitemaps başarıyla oluşturuldu!`);
 console.log(`📊 Toplam ${sitemapIndexFiles.length} sitemap dosyası sitemap.xml indeksine kaydedildi.`);
 console.log(`🌐 Toplam URL Sayısı: ${totalUrls}`);
+
+// ---------------------------------------------------------------------------
+// Prerender URL listesi (tek doğruluk kaynağı)
+//
+// scripts/prerender.mjs bu dosyayı okuyup her rota için statik HTML üretir.
+// Sitemap URL'leri ile prerender edilen rotalar BİREBİR aynıdır; böylece
+// sitemap'te olan ama HTML'i olmayan "soft" URL sorunu yaşanmaz.
+// ---------------------------------------------------------------------------
+const prerenderPaths = [
+    // Core (sitemap-core.xml ile aynı; /404 prerender edilir ama sitemap'e girmez)
+    '/',
+    '/404',
+    ...coreUrls.map(u => u.match(/<loc>([^<]+)<\/loc>/)[1].replace(baseUrl, '')),
+    // Servis sayfaları
+    ...serviceUrls.map(u => u.match(/<loc>([^<]+)<\/loc>/)[1].replace(baseUrl, '')),
+    // Rehber sayfaları
+    ...guideUrls.map(u => u.match(/<loc>([^<]+)<\/loc>/)[1].replace(baseUrl, '')),
+    // 81 il + il-iskan sayfaları
+    ...cityUrls.map(u => u.match(/<loc>([^<]+)<\/loc>/)[1].replace(baseUrl, '')),
+    // İlçe + ilçe-iskan sayfaları
+    ...districts1Urls.map(u => u.match(/<loc>([^<]+)<\/loc>/)[1].replace(baseUrl, '')),
+    ...districts2Urls.map(u => u.match(/<loc>([^<]+)<\/loc>/)[1].replace(baseUrl, '')),
+    // Servis × büyükşehir sayfaları
+    ...geoServiceUrls.map(u => u.match(/<loc>([^<]+)<\/loc>/)[1].replace(baseUrl, ''))
+];
+
+fs.writeFileSync(path.join(rootDirOrCwd(), 'prerender-urls.json'), JSON.stringify(prerenderPaths), 'utf8');
+console.log(`📄 prerender-urls.json yazıldı: ${prerenderPaths.length} rota (sitemap + /404).`);
+
+function rootDirOrCwd() {
+    return process.cwd();
+}

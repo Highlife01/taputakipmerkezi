@@ -1,14 +1,22 @@
 import { useState } from "react";
-import { ShieldCheck, Phone, Menu, X } from "lucide-react";
+import { ShieldCheck, Phone, Menu, X, Info } from "lucide-react";
+import { SITE } from "@/config/site";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const phoneNumber = "05320550945";
-  const displayPhone = "0532 055 09 45";
-  const domain = "www.taputakipmerkezi.com.tr";
+  const phoneNumber = SITE.phoneRaw;
+  const displayPhone = SITE.phoneDisplay;
+  const domain = SITE.domain;
 
   return (
     <>
+      {/* Şeffaflık şeridi: hizmetin niteliği ziyaretçiye en üstte açıkça bildirilir */}
+      <div className="bg-slate-900 text-slate-300 px-4 py-2">
+        <div className="max-w-7xl mx-auto flex items-start gap-2 text-[10px] font-bold uppercase tracking-widest leading-relaxed">
+          <Info size={14} className="shrink-0 mt-0.5 text-blue-400" />
+          <span>{SITE.disclaimerShort}</span>
+        </div>
+      </div>
       <nav className="bg-card border-b sticky top-0 z-50 px-4 h-20 flex items-center shadow-sm">
         <div className="max-w-7xl mx-auto w-full flex justify-between items-center">
           <div className="flex items-center gap-2">

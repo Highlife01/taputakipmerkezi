@@ -1,44 +1,67 @@
 import { useState } from "react";
 import { ArrowRight, Zap, CheckCircle2, Info } from "lucide-react";
+import { SITE } from "@/config/site";
 
+/**
+ * Hero bölümü + "ön kayıt talebi" formu.
+ *
+ * ÖNEMLİ (dürüstlük kuralı): Bu form arka planda canlı bir dosya/takip
+ * sorgusu YAPMAZ. Form gönderimi gerçek bir iletişim talebi (ön kayıt) olarak
+ * Web3Forms üzerinden iletilir ve kullanıcıya yalnızca bu gerçeği yansıtan
+ * bir onay gösterilir. Sahte "dosyanız güncellendi" mesajı kaldırıldı.
+ */
 const Hero = () => {
   const [formData, setFormData] = useState({
     isim: "",
     soyisim: "",
     telefon: ""
   });
-  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleTrackingSearch = async (e: React.FormEvent) => {
+  const handlePreRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.isim || !formData.soyisim || !formData.telefon) return;
-    setFormStatus("sending");
 
-    const requestData = new FormData();
-    requestData.append("access_key", "7b31c9d8-eb61-4d45-a3ec-83a9c19e5a2f");
-    requestData.append("subject", "Yeni danışmanlık talebi - Tapu Takip Merkezi");
-    requestData.append("from_name", "Tapu Takip Merkezi");
-    requestData.append("name", `${formData.isim} ${formData.soyisim}`);
-    requestData.append("phone", formData.telefon);
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch(SITE.web3FormsEndpoint, {
         method: "POST",
-        body: requestData,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          access_key: SITE.web3FormsAccessKey,
+          subject: "Yeni Ön Kayıt Talebi (Hero Formu) - Tapu Takip Merkezi",
+          from_name: "Tapu Takip Merkezi Web Sitesi",
+          form_kaynagi: "Hero - Ön Kayıt Talebi",
+          ad_soyad: `${formData.isim} ${formData.soyisim}`.trim(),
+          telefon: formData.telefon,
+          kvkk_onay: "Evet - Hero formu onay kutusu işaretlendi"
+        })
       });
+
       const data = await response.json();
 
-      if (!data.success) throw new Error("Form gönderilemedi");
-
-      setFormStatus("success");
-      setFormData({ isim: "", soyisim: "", telefon: "" });
-    } catch {
-      setFormStatus("error");
+      if (data.success) {
+        setSubmitStatus("success");
+        setFormData({ isim: "", soyisim: "", telefon: "" });
+      } else {
+        setSubmitStatus("error");
+      }
+    } catch (error) {
+      console.error("Ön kayıt gönderim hatası:", error);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -47,7 +70,7 @@ const Hero = () => {
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
         <div className="text-center lg:text-left space-y-8">
           <span className="inline-block bg-blue-600 text-primary-foreground px-4 py-2 rounded-full font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-200">
-            Resmi Gayrimenkul Takip Portalı
+            Noter Vekâleti ile Resmî Kurumlarda Süreç Takibi
           </span>
           <h1 className="text-4xl lg:text-7xl font-black text-slate-900 tracking-tighter leading-[1.1] uppercase">
             Tapu ve resmi süreçlerde <br />
@@ -67,7 +90,7 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Tracking Panel */}
+        {/* Ön Kayıt Paneli */}
         <div className="bg-card rounded-[3rem] card-shadow border p-8 md:p-12 relative overflow-hidden">
           <div className="space-y-8">
             <div className="flex items-center gap-4 border-b pb-6">
@@ -76,15 +99,15 @@ const Hero = () => {
               </div>
               <div>
                 <h3 className="font-black text-slate-800 text-xl tracking-tight leading-none mb-1 uppercase">
-                  Danışmanlık Talebi
+                  Ücretsiz Ön Kayıt
                 </h3>
                 <p className="text-sm text-slate-400 font-bold uppercase tracking-wider">
-                  Bölge Uzmanına Yönlendirme
+                  Süreç Değerlendirme Talebi
                 </p>
               </div>
             </div>
 
-            <form onSubmit={handleTrackingSearch} className="space-y-4">
+            <form onSubmit={handlePreRegistration} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <input
                   type="text"
@@ -123,35 +146,38 @@ const Hero = () => {
                 <input
                   type="checkbox"
                   required
+                  name="kvkkConsent"
                   className="mt-1 w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500 cursor-pointer"
                   id="hero-kvkk-consent"
                 />
                 <label htmlFor="hero-kvkk-consent" className="text-[10px] text-slate-500 font-medium leading-relaxed cursor-pointer select-none">
-                  <a href="/kvkk" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">KVKK Aydınlatma Metni</a>'ni okudum, kişisel verilerimin işlenmesini ve mülkiyet güvenliği kapsamında danışmanlık hizmeti sunulmasını kabul ediyorum.
+                  <a href="/kvkk" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">KVKK Aydınlatma Metni</a>'ni okudum, kişisel verilerimin ön kayıt talebimin değerlendirilmesi amacıyla işlenmesini kabul ediyorum.
                 </label>
               </div>
 
               <button
                 type="submit"
-                disabled={formStatus === "sending"}
-                className="w-full bg-blue-600 text-primary-foreground py-5 rounded-3xl font-black text-lg shadow-xl shadow-blue-100 transition-all hover:bg-blue-700 active:scale-[0.98] uppercase tracking-widest"
+                disabled={isSubmitting}
+                className="w-full bg-blue-600 text-primary-foreground py-5 rounded-3xl font-black text-lg shadow-xl shadow-blue-100 transition-all hover:bg-blue-700 active:scale-[0.98] uppercase tracking-widest disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                {formStatus === "sending" ? "İletiliyor..." : "Danışmanlık Talebi Gönder"}
+                {isSubmitting ? "Gönderiliyor..." : "Ön Kayıt Talebi Gönder"}
               </button>
 
               <p className="text-[10px] text-center text-slate-400 font-medium pt-2">
                 Verileriniz T.C. 6698 Sayılı Kanun kapsamında korunmaktadır.
               </p>
 
-              {formStatus === "success" && (
+              {submitStatus === "success" && (
                 <div className="p-5 bg-emerald-50 text-emerald-800 rounded-2xl text-xs font-bold flex items-start gap-3 border border-emerald-100 animate-fade-in">
                   <CheckCircle2 className="shrink-0 text-emerald-600" />
-                  Talebiniz alındı. Bölge uzmanımız sizi 0532 055 09 45 hattından arayacaktır.
+                  Talebiniz bize ulaştı. Bu bir ön kayıt başvurusudur; uzmanımız en kısa sürede {SITE.phoneDisplay} hattından sizi arayarak dosyanızı değerlendirecektir.
                 </div>
               )}
-              {formStatus === "error" && (
-                <div className="p-5 bg-red-50 text-red-800 rounded-2xl text-xs font-bold border border-red-100 animate-fade-in">
-                  Talebiniz şu anda iletilemedi. Lütfen tekrar deneyin veya 0532 055 09 45 numarasını arayın.
+
+              {submitStatus === "error" && (
+                <div className="p-5 bg-red-50 text-red-700 rounded-2xl text-xs font-bold flex items-start gap-3 border border-red-100 animate-fade-in">
+                  <Info className="shrink-0 text-red-500" />
+                  Talebiniz gönderilemedi. Lütfen tekrar deneyin veya bizi doğrudan {SITE.phoneDisplay} numarasından arayın.
                 </div>
               )}
             </form>
@@ -159,8 +185,7 @@ const Hero = () => {
             <div className="bg-blue-50/50 rounded-2xl p-5 border border-dashed border-blue-200 flex items-start gap-3">
               <Info size={20} className="text-blue-500 shrink-0" />
               <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-relaxed">
-                Bilgilerinizi gönderdiğinizde, ilgili bölge uzmanımız sizi 0532 055
-                09 45 hattından arayarak danışmanlık talebiniz için bilgi verecektir.
+                Bu form canlı bir dosya sorgusu değildir; ön kayıt talebinizi ilettiğinizde ilgili bölge uzmanımız {SITE.phoneDisplay} hattımızdan sizi arayarak sürecinizi değerlendirir.
               </p>
             </div>
           </div>

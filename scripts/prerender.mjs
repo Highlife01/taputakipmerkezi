@@ -8,6 +8,9 @@
  *  3. dist-server/entry-server.js her URL için renderToString ile HTML üretir.
  *  4. Rota bazlı <head> etiketleri (title/description/canonical/JSON-LD/OG)
  *     </head> öncesine, gövde ise #root içine yazılır.
+ *     NOT: Vite production derlemesinde HTML yorumları silinir; bu yüzden
+ *     <!--ssr-head-->/<!--ssr-root--> işaretçileri opsiyoneldir. Yoksa
+ *     sırasıyla "</head>" ve '<div id="root"></div>' çıpaları kullanılır.
  *  5. Her rota dist/<rota>/index.html olarak yazılır (kök: dist/index.html).
  *     dist/404.html ayrıca üretilir → Vercel gerçek 404 döndürür.
  */
@@ -21,16 +24,25 @@ const distDir = path.join(rootDir, "dist");
 const serverEntryPath = path.join(rootDir, "dist-server", "entry-server.js");
 const urlsPath = path.join(rootDir, "prerender-urls.json");
 
+const ROOT_DIV_RE = /<div id="root">\s*<\/div>/;
+
 async function main() {
     const template = await readFile(path.join(distDir, "index.html"), "utf8");
 
-    if (!template.includes("<!--ssr-root-->")) {
+    // Vite production build'ü HTML yorumlarını temizlediği için işaretçiler
+    // opsiyoneldir; zorunlu olan çıpalar: </head> ve <div id="root"></div>.
+    const useHeadMarker = template.includes("<!--ssr-head-->");
+    const useRootMarker = template.includes("<!--ssr-root-->");
+
+    if (!useHeadMarker && !/<\/head>/i.test(template)) {
         throw new Error(
-            "Şablonda ssr-root işaretçisi bulunamadı — Vite çıktısı beklenmedik şekilde değişmiş olabilir."
+            "Şablonda ne ssr-head işaretçisi ne de </head> çıpası bulundu — Vite çıktısı beklenmedik şekilde değişmiş olabilir."
         );
     }
-    if (!template.includes("<!--ssr-head-->")) {
-        throw new Error("Şablonda ssr-head işaretçisi bulunamadı.");
+    if (!useRootMarker && !ROOT_DIV_RE.test(template)) {
+        throw new Error(
+            'Şablonda ne ssr-root işaretçisi ne de <div id="root"></div> çıpası bulundu — Vite çıktısı beklenmedik şekilde değişmiş olabilir.'
+        );
     }
 
     const urls = JSON.parse(await readFile(urlsPath, "utf8"));
@@ -50,8 +62,12 @@ async function main() {
             const { html: body, head } = render(route);
 
             // Function replacer kullanılır: $& benzeri diziler bozulmasın diye.
-            let out = template.replace("<!--ssr-head-->", () => head);
-            out = out.replace("<!--ssr-root-->", () => body);
+            let out = useHeadMarker
+                ? template.replace("<!--ssr-head-->", () => head)
+                : template.replace(/<\/head>/i, () => head + "\n  </head>");
+            out = useRootMarker
+                ? out.replace("<!--ssr-root-->", () => body)
+                : out.replace(ROOT_DIV_RE, () => `<div id="root">${body}</div>`);
 
             const filePath =
                 route === "/"

@@ -17,7 +17,7 @@ const homeFaqSchema = {
       "name": "Tapu takip işlemleri ne kadar sürede tamamlanır?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Evraklarınızın eksiksiz olması durumunda, vergi ilişik kesme süreçleri genellikle 1-3 iş günü, tapu devir işlemleri ise randevu yoğunluğuna göre aynı gün veya ertesi gün sonuçlanır."
+        "text": "Evraklarınızın eksiksiz olması durumunda vergi ilişik kesme süreçleri genellikle 1-3 iş günü içinde, tapu devir işlemleri ise randevu takvimine bağlı olarak kısa sürede yürütülür. Kesin süre; dosyanın niteliğine, evrakların durumuna ve ilgili kurumun yoğunluğuna göre değişebilir."
       }
     },
     {
@@ -47,34 +47,26 @@ const homeFaqSchema = {
   ]
 };
 
-const homeLocalBusinessSchema = {
-  "@type": "LocalBusiness",
+// Ana sayfa şeması: fiziksel bir iş yeri adresimiz olmadığı için LocalBusiness
+// yerine Organization + areaServed kullanılır. Kurgusal adres/koordinat üretilmez.
+const homeOrganizationSchema = {
+  "@type": "Organization",
   "@id": "https://www.taputakipmerkezi.com.tr",
   "name": "Tapu Takip Merkezi",
   "image": "https://www.taputakipmerkezi.com.tr/favicon.png",
   "url": "https://www.taputakipmerkezi.com.tr",
   "telephone": "+905320550945",
-  "priceRange": "₺₺",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Türkiye Geneli Hizmet Ağı",
-    "addressLocality": "Adana",
-    "addressCountry": "TR"
-  },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 36.9914,
-    "longitude": 35.3308
-  },
+  "description": "Resmî kurum olmayan; noter vekâletnamesi ile tapu, kadastro, belediye ve vergi daireleri nezdinde süreç takibi yapan özel danışmanlık hizmeti.",
   "areaServed": {
     "@type": "Country",
     "name": "Turkey"
   },
-  "openingHoursSpecification": {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-    "opens": "09:00",
-    "closes": "18:00"
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+905320550945",
+    "contactType": "customer service",
+    "areaServed": "TR",
+    "availableLanguage": "Turkish"
   }
 };
 
@@ -86,7 +78,7 @@ const Index = () => {
         description="Türkiye'nin 81 ilinde tapu devri, veraset intikal, iskan sorgulama ve icra haciz kaldırma takibi. Uzman kadromuzla resmi dairelerdeki işlemlerinizi güvenle tamamlayın."
         url="https://www.taputakipmerkezi.com.tr"
         keywords="tapu takip, tapu devri, veraset intikal, tapu randevu, iskan sorgulama, vergi ilişik kesme, haciz kaldırma, gayrimenkul danışmanlık, 81 il tapu takibi"
-        schemas={[homeLocalBusinessSchema, homeFaqSchema]}
+        schemas={[homeOrganizationSchema, homeFaqSchema]}
       />
       <WhatsAppButton />
       <Navbar />

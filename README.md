@@ -1,73 +1,76 @@
-# Welcome to your Lovable project
+# Tapu Takip Merkezi
 
-## Project info
+81 il ve ~970 ilçe için tapu, vergi ve miras süreç takibi danışmanlık hizmetinin
+tanıtım sitesi. **Resmî kurum değildir**; noter vekâletnamesi çerçevesinde
+resmî kurumlar nezdinde süreç takibi yapan özel bir danışmanlık hizmetidir
+(bu beyan sitenin navbar şeridinde, footer'ında ve KVKK metninde yer alır).
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Teknoloji
 
-## How can I edit this code?
+- **Vite 5 + React 18 + TypeScript** (SPA, route-level code splitting)
+- **React Router v6** — 16 rota deseni, ~2.238 geçerli URL
+- **Tailwind CSS + shadcn/ui**
+- **react-helmet-async** — rota bazlı title/description/canonical/JSON-LD/OG
+- **Web3Forms** — iletişim ve ön kayıt formlarının iletimi (honeypot + KVKK onayı ile)
 
-There are several ways of editing your application.
+## Build & Prerender (P0 pipeline)
 
-**Use Lovable**
+`npm run build` şu zinciri çalıştırır:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+1. **generate-sitemap.js** — 7 sitemap + `sitemap.xml` indeksi üretir ve
+   **`prerender-urls.json`** dosyasını yazar. Bu JSON, prerender edilecek tüm
+   geçerli rotaların (sitemap + `/404`) **tek doğruluk kaynağıdır**.
+2. **vite build** — istemci bundle'ı (manualChunks ile vendor bölmesi +
+   `React.lazy` route bölmesi).
+3. **vite build --config vite.ssr.config.ts** — `dist-server/entry-server.js`
+   (renderToString tabanlı SSR bundle; tarayıcı gerekmez, Puppeteer YOKTUR).
+4. **scripts/prerender.mjs** — her rota için tam HTML üretir:
+   - Rota bazlı `<head>` (title, description, canonical, OG, Twitter, geo, JSON-LD)
+     `</head>` öncesine enjekte edilir.
+   - Gövde `#root` içine yazılır; istemci `hydrateRoot` ile devralır.
+   - `dist/404.html` üretilir → Vercel geçersiz URL'lere **gerçek 404** döndürür.
+5. **scripts/verify-prerender.mjs** — kabul kriterleri:
+   - `/hizmetler` başlığı ana sayfadan farklı,
+   - `/tapu-takip/istanbul` başlığı + canonical + geo + Service JSON-LD,
+   - `/tapu-islemleri/veraset-intikal/istanbul`, `/istanbul-iskan-sorgulama`,
+     `/tapu-takip/istanbul/kadikoy`, rehber sayfası mevcut,
+   - `404.html` noindex içerir,
+   - hiçbir sayfada SSR marker kalıntısı yoktur.
 
-Changes made via Lovable will be committed automatically to this repo.
+## Deployment (Vercel)
 
-**Use your preferred IDE**
+- `vercel.json` **rewrite içermez**; statik dosyalar doğrudan servis edilir.
+  Geçersiz URL'ler `404.html` üzerinden gerçek 404 döner (soft-404 yok).
+- `cleanUrls: true` + `trailingSlash: false`.
+- `sw.js` için `must-revalidate` başlığı (cache sürümü: `tapu-takip-v2`).
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Klasör Düzeni
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+scripts/          prerender.mjs, verify-prerender.mjs (build zinciri)
+src/config/site.ts  tek doğruluk kaynağı: telefon, e-posta, alan adı, Web3Forms anahtarı, feragat metni
+src/routes.tsx    paylaşılan rota tablosu + sağlayıcılar (istemci & SSR ortak)
+src/entry-server.tsx  sunucu render girişi (yalnızca build zamanında)
+src/App.tsx       istemci girişi (React.lazy + hydrateRoot)
+generate-sitemap.js   sitemap + prerender-urls.json üretimi
 ```
 
-**Edit a file directly in GitHub**
+## Formlar ve KVKK
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- Her iki form da Web3Forms'a gönderilir; `kvkkConsent` onayı **payload içinde**
+  iletilir (+ zaman damgası ve metin sürümü).
+- Hero formu canlı bir dosya sorgusu **değildir**; dürüst "ön kayıt talebi"
+  olarak çalışır ve kullanıcıya bu açıkça bildirilir.
+- Spam koruması: honeypot alanı (`botcheck`) + istemci doğrulaması.
+- KVKK metni; veri sorumlusu kimliği, Web3Forms/Google Analytics aktarım
+  beyanı, saklama süreleri ve başvuru usulünü içerir.
 
-**Use GitHub Codespaces**
+## Geliştirme
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+```bash
+npm install        # bağımlılıkları kur
+npm run dev        # http://localhost:8080
+npm run lint       # eslint (0 hedef: 0 error)
+npm run build      # sitemap + build + prerender + doğrulama
+npm run preview    # dist/ önizleme
+```

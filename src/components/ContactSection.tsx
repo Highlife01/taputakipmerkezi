@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Phone, Mail, Building2, CheckCircle2, Loader2 } from "lucide-react";
+import { SITE } from "@/config/site";
 
 const ContactSection = () => {
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errors, setErrors] = useState<{ phone?: string; email?: string }>({});
-  const phoneNumber = "05320550945";
-  const displayPhone = "0532 055 09 45";
+  const phoneNumber = SITE.phoneRaw;
+  const displayPhone = SITE.phoneDisplay;
 
   const validateForm = (formData: FormData): boolean => {
     const newErrors: { phone?: string; email?: string } = {};
@@ -13,9 +14,7 @@ const ContactSection = () => {
     const email = formData.get("email") as string;
 
     // Turkish phone validation: Starts with 05, followed by 9 digits (total 11)
-    // Adjust regex to be flexible with spaces if needed, but for now we enforce strict or simple checks.
-    // The requirement said "0000000000" shouldn't pass.
-    const phoneRegex = /^(05)[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/;
+    const phoneRegex = /^(05)[0-9]{9}$/;
     const cleanPhone = phone.replace(/\s/g, ''); // Remove spaces for check
 
     if (!phoneRegex.test(cleanPhone)) {
@@ -36,17 +35,28 @@ const ContactSection = () => {
     e.preventDefault();
     setErrors({});
 
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    // Honeypot kontrolü: botlar gizli alanı doldurur, gerçek kullanıcılar doldurmaz.
+    if ((formData.get("botcheck") as string)?.trim() !== "") {
+      return; // Sessizce yok say; kullanıcıya hata gösterilmez.
+    }
 
     if (!validateForm(formData)) {
       return;
     }
 
     setFormStatus('sending');
-    formData.append("access_key", "7b31c9d8-eb61-4d45-a3ec-83a9c19e5a2f");
+
+    // KVKK onayı form verisine açıkça eklenir (checkbox name ile gönderilir)
+    formData.append("access_key", SITE.web3FormsAccessKey);
+    formData.append("kvkk_onay_zamani", new Date().toISOString());
+    formData.append("kvkk_metni_surumu", "2026-09 v1");
+    formData.append("form_kaynagi", "İletişim Bölümü");
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch(SITE.web3FormsEndpoint, {
         method: "POST",
         body: formData
       });
@@ -55,7 +65,7 @@ const ContactSection = () => {
 
       if (data.success) {
         setFormStatus('success');
-        (e.target as HTMLFormElement).reset();
+        form.reset();
       } else {
         setFormStatus('error');
       }
@@ -101,7 +111,7 @@ const ContactSection = () => {
                     Kurumsal Yazışma
                   </p>
                   <p className="text-xl font-black tracking-tighter font-mono opacity-80 underline underline-offset-4 uppercase">
-                    cebokar@gmail.com
+                    {SITE.email}
                   </p>
                 </div>
               </div>
@@ -117,7 +127,7 @@ const ContactSection = () => {
                 <div>
                   <h4 className="text-3xl font-black uppercase tracking-tight">Başvurunuz Alındı!</h4>
                   <p className="font-bold text-slate-500 mt-2 uppercase text-xs tracking-widest">
-                    Uzmanlarımız sizi hemen arayacak.
+                    Uzmanlarımız en kısa sürede sizinle iletişime geçecek.
                   </p>
                 </div>
               </div>
@@ -125,7 +135,17 @@ const ContactSection = () => {
               <form className="space-y-6" onSubmit={handleSubmit} noValidate>
                 <input type="hidden" name="subject" value="Yeni İletişim Formu Başvurusu - Tapu Takip Merkezi" />
                 <input type="hidden" name="from_name" value="Tapu Takip Merkezi" />
-                <input type="hidden" name="replyto" value="cebokar@gmail.com" />
+                <input type="hidden" name="replyto" value={SITE.email} />
+
+                {/* Honeypot: ekran dışı, botlar için tuzak */}
+                <input
+                  type="checkbox"
+                  name="botcheck"
+                  className="hidden"
+                  style={{ display: "none" }}
+                  tabIndex={-1}
+                  aria-hidden="true"
+                />
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-superwide text-slate-400 ml-1">
@@ -194,17 +214,19 @@ const ContactSection = () => {
                   <input
                     type="checkbox"
                     required
+                    name="kvkkConsent"
+                    value="Evet"
                     className="mt-1 w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500 cursor-pointer"
                     id="contact-kvkk-consent"
                   />
                   <label htmlFor="contact-kvkk-consent" className="text-[10px] text-slate-500 font-medium leading-relaxed cursor-pointer select-none">
-                    <a href="/kvkk" target="_blank" className="text-blue-600 underline">KVKK Aydınlatma Metni</a>'ni okudum ve kabul ediyorum.
+                    <a href="/kvkk" target="_blank" className="text-blue-600 underline">KVKK Aydınlatma Metni</a>'ni okudum, kişisel verilerimin talebimin değerlendirilmesi amacıyla işlenmesine onay veriyorum.
                   </label>
                 </div>
 
                 {formStatus === 'error' && (
                   <div className="p-4 bg-red-50 text-red-600 rounded-xl text-sm font-bold">
-                    Bir hata oluştu. Lütfen tekrar deneyin.
+                    Bir hata oluştu. Lütfen tekrar deneyin veya bizi {displayPhone} numarasından arayın.
                   </div>
                 )}
 

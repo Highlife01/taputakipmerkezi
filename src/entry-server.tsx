@@ -7,8 +7,20 @@
  */
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
-import type { HelmetData } from "react-helmet-async";
 import { AppProviders, AppRoutes, type PageMap } from "./routes";
+
+/** react-helmet-async head çıktısının minimum arayüzü (sürüm bağımsız tip güvenliği) */
+interface HelmetHeadPart {
+    toString(): string;
+}
+
+interface HelmetHead {
+    title?: HelmetHeadPart;
+    meta?: HelmetHeadPart;
+    link?: HelmetHeadPart;
+    script?: HelmetHeadPart;
+    style?: HelmetHeadPart;
+}
 
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -44,7 +56,7 @@ export interface RenderResult {
 }
 
 export function render(url: string): RenderResult {
-    const helmetContext: { helmet?: HelmetData } = {};
+    const helmetContext: { helmet?: HelmetHead } = {};
 
     const html = renderToString(
         <AppProviders helmetContext={helmetContext}>

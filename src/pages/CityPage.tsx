@@ -97,38 +97,27 @@ const CityPage = () => {
         ]
     };
 
-    const localBusinessSchema = {
-        "@type": "LocalBusiness",
+    // Hizmet şeması: fiziksel bir iş yeri olmadığımız için LocalBusiness yerine
+    // Service + provider (Organization) + areaServed kullanılır. Adres/çalışma
+    // saati gibi doğrulanamayan veriler üretilmez.
+    const serviceSchema = {
+        "@type": "Service",
         "@id": canonicalUrl,
-        "name": `Tapu Takip Merkezi - ${city.name}${district ? ` (${district.name})` : ""}`,
-        "image": "https://www.taputakipmerkezi.com.tr/favicon.png",
+        "name": `Tapu Takip Hizmeti - ${city.name}${district ? ` (${district.name})` : ""}`,
+        "serviceType": isIskanPage
+            ? "İskan (Yapı Kullanma İzin Belgesi) Sorgulama"
+            : "Tapu İşlemleri Takip ve Danışmanlık",
         "url": canonicalUrl,
-        "telephone": "+905320550945",
-        "priceRange": "₺₺",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": cityGeo?.tapuMudurlugu || `${city.name} Tapu Hizmet Noktası`,
-            "addressLocality": district ? district.name : city.name,
-            "addressRegion": city.name,
-            "addressCountry": "TR",
-            ...(cityGeo?.postalCode ? { "postalCode": cityGeo.postalCode } : {})
+        "provider": {
+            "@type": "Organization",
+            "name": "Tapu Takip Merkezi",
+            "url": "https://www.taputakipmerkezi.com.tr",
+            "telephone": "+905320550945",
+            "description": "Resmî kurum olmayan; noter vekâletnamesi ile tapu, kadastro, belediye ve vergi daireleri nezdinde süreç takibi yapan özel danışmanlık hizmeti."
         },
-        ...(cityGeo ? {
-            "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": cityGeo.latitude,
-                "longitude": cityGeo.longitude
-            }
-        } : {}),
         "areaServed": {
             "@type": "AdministrativeArea",
             "name": district ? `${district.name}, ${city.name}` : city.name
-        },
-        "openingHoursSpecification": {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-            "opens": "09:00",
-            "closes": "18:00"
         }
     };
 
@@ -208,7 +197,7 @@ const CityPage = () => {
                 description={description}
                 url={canonicalUrl}
                 geo={geoTags}
-                schemas={[breadcrumbData, localBusinessSchema, localFaqSchema]}
+                schemas={[breadcrumbData, serviceSchema, localFaqSchema]}
                 keywords={`${city.name} tapu takip, ${city.name} tapu randevu, ${district ? district.name + ' tapu takip, ' : ''}${city.name} veraset intikal, ${city.name} iskan sorgulama, ${city.name} tapu mudurlugu`}
             />
             <WhatsAppButton />
@@ -259,7 +248,7 @@ const CityPage = () => {
                                 sınırları içerisindeki tüm taşınmazlar için tapu devri, veraset intikal, ipotek terkini, imar durumu ve iskan araştırmaları
                                 <strong> {cityGeo?.tapuMudurlugu || `${city.name} Tapu Müdürlüğü`} </strong>
                                 ve ilgili belediye nezdinde yetkili uzmanlarımızca yürütülmektedir.
-                                Süreçler randevulu ve 24-48 saat içinde hızlıca neticelendirilir.
+                                Süreçlerin tamamlanma süresi; dosyanın niteliğine, evrakların durumuna ve ilgili kurumun işlem akışına göre değişiklik gösterebilir. Başvurularınız randevu planlamasıyla titizlikle yürütülür.
                             </p>
                         </div>
 

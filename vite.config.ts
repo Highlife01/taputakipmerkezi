@@ -3,39 +3,56 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-// Öncelikli sayfalar - bunlar build sırasında statik HTML olarak oluşturulur
-const prerenderRoutes = [
-  '/',
-  '/hizmetler',
-  '/tapu-islemleri',
-  '/tapu-sureci',
-  '/veraset-intikal',
-  '/kvkk',
-  '/hizmet-sartlari',
-  // Hizmetler
-  '/tapu-islemleri/tapu-devri',
-  '/tapu-islemleri/satis-tapusu',
-  '/tapu-islemleri/miras-tapu-islemleri',
-  '/tapu-islemleri/hisseli-tapu',
-  '/tapu-islemleri/ipotek-kaldirma',
-  '/tapu-islemleri/iskan-sorgulama',
-  '/tapu-islemleri/veraset-intikal',
-  '/tapu-islemleri/vergi-ilisik-kesme',
-  // Büyük şehirler
-  '/tapu-takip/istanbul',
-  '/tapu-takip/ankara',
-  '/tapu-takip/izmir',
-  '/tapu-takip/bursa',
-  '/tapu-takip/antalya',
-  '/tapu-takip/adana',
-  '/tapu-takip/konya',
-  '/tapu-takip/gaziantep',
-  '/tapu-takip/mersin',
-  '/tapu-takip/kocaeli',
-  '/istanbul-iskan-sorgulama',
-  '/ankara-iskan-sorgulama',
-  '/izmir-iskan-sorgulama',
-];
+/**
+ * Vendor chunk bölmesi: tek devasa bundle yerine mantıksal parçalar.
+ * Route-level kod bölmesi (src/App.tsx'teki React.lazy) ile birlikte
+ * ilk yükleme boyutu belirgin şekilde düşer.
+ */
+/**
+ * Vendor chunk bölmesi: tek devasa bundle yerine mantıksal parçalar.
+ *
+ * DİKKAT (chunk döngüsü): React çekirdeği ve React'i import eden yardımcı
+ * paketler (@remix-run/router, react-remove-scroll, @babel/runtime vb.) aynı
+ * chunk'ta olmalıdır; aksi hâlde Rollup "circular chunk" uyarısı üretir.
+ * Bu yüzden vendor-react grubu geniştir ve vendor-misc fallback YOKTUR —
+ * eşleşmeyen paketler Rollup'un doğal paylaşım chunk'larına gider.
+ */
+function manualChunks(id: string): string | undefined {
+  if (!id.includes("node_modules")) return undefined;
+  const normalized = id.replace(/\\/g, "/");
+  const seg = normalized.split("node_modules/").pop() ?? "";
+  const pkg = seg.startsWith("@")
+    ? seg.split("/").slice(0, 2).join("/")
+    : seg.split("/")[0];
+
+  // Ağır görselleştirme/takvim kütüphaneleri (lazy chunk'lara yüklenir)
+  if (
+    ["recharts", "embla-carousel-react", "react-day-picker", "react-resizable-panels"].includes(pkg) ||
+    pkg.startsWith("d3-") ||
+    pkg === "victory-vendor"
+  ) {
+    return "vendor-heavy";
+  }
+  // Uygulama seviyesi yardımcılar
+  if (
+    ["@tanstack", "react-hook-form", "@hookform", "zod", "date-fns", "sonner", "next-themes", "react-helmet-async"].includes(pkg)
+  ) {
+    return "vendor-app";
+  }
+  // Radix UI primitifleri
+  if (pkg.startsWith("@radix-ui") || ["cmdk", "vaul", "input-otp"].includes(pkg)) {
+    return "vendor-ui";
+  }
+  // React çekirdeği + runtime yardımcıları (döngüye girmemesi için tek yerde)
+  if (
+    ["react", "react-dom", "react-router", "react-router-dom", "@remix-run/router", "scheduler", "@babel/runtime", "tslib", "invariant", "shallowequal", "react-fast-compare"].includes(pkg) ||
+    pkg.startsWith("react-remove")
+  ) {
+    return "vendor-react";
+  }
+  // lucide-react ve diğerleri: Rollup doğal paylaşım chunk'ı oluşturur
+  return undefined;
+}
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -44,7 +61,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
   },
   plugins: [
-    react(), 
+    react(),
     mode === "development" && componentTagger(),
   ].filter(Boolean),
   resolve: {
@@ -52,7 +69,12 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    emptyOutDir: false,
+    rollupOptions: {
+      output: {
+        manualChunks,
+      },
+    },
+  },
 }));
-
-// Export for prerender script
-export { prerenderRoutes };
