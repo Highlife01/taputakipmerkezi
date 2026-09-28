@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node generate-sitemap.js && vite build",
-    "build:prerender": "node generate-sitemap.js && vite build && node prerender.js",
+    "build": "node generate-sitemap.js && vite build && npm run prerender:browser && npm run prerender",
+    "build:prerender": "npm run build",
     "build:dev": "vite build --mode development",
+    "prerender:browser": "node scripts/install-puppeteer-browser.js",
     "prerender": "node prerender.js",
     "lint": "eslint .",
     "preview": "vite preview"

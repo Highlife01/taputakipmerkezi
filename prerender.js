@@ -55,11 +55,11 @@ async function prerender() {
     // Preview server'ı başlat
     const { preview } = await import('vite');
     const server = await preview({
-        preview: { port: PORT, strictPort: true },
+        preview: { port: PORT, strictPort: false },
         build: { outDir: DIST_DIR }
     });
     
-    const baseUrl = `http://localhost:${PORT}`;
+    const baseUrl = server.resolvedUrls?.local?.[0]?.replace(/\/$/, '') || `http://localhost:${PORT}`;
     
     // Puppeteer'ı başlat
     const browser = await puppeteer.launch({

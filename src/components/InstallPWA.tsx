@@ -8,6 +8,14 @@ interface BeforeInstallPromptEvent extends Event {
     userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
+interface IOSNavigator extends Navigator {
+    standalone?: boolean;
+}
+
+interface IOSWindow extends Window {
+    MSStream?: unknown;
+}
+
 const InstallPWA = () => {
     const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
     const [showBanner, setShowBanner] = useState(false);
@@ -17,13 +25,13 @@ const InstallPWA = () => {
     useEffect(() => {
         // 1. Zaten yüklü mü kontrol et
         const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches
-            || (window.navigator as any).standalone
+            || (window.navigator as IOSNavigator).standalone
             || document.referrer.includes('android-app://');
 
         setIsStandalone(isInStandaloneMode);
 
         // 2. iOS kontrolü
-        const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+        const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as IOSWindow).MSStream;
         setIsIOS(isIOSDevice);
 
         // 3. Android/Desktop Chrome için yükleme olayını yakala

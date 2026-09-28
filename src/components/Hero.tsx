@@ -7,27 +7,39 @@ const Hero = () => {
     soyisim: "",
     telefon: ""
   });
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchFeedback, setSearchFeedback] = useState("");
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleTrackingSearch = (e: React.FormEvent) => {
+  const handleTrackingSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.isim || !formData.soyisim || !formData.telefon) return;
-    setIsSearching(true);
+    setFormStatus("sending");
 
-    setTimeout(() => {
-      setIsSearching(false);
-      setSearchFeedback(
-        `Sayın ${formData.isim} ${formData.soyisim}, dosyanız sistemde güncellendi. Uzmanımız 0532 055 09 45 hattından sizi arayacaktır.`
-      );
+    const requestData = new FormData();
+    requestData.append("access_key", "7b31c9d8-eb61-4d45-a3ec-83a9c19e5a2f");
+    requestData.append("subject", "Yeni danışmanlık talebi - Tapu Takip Merkezi");
+    requestData.append("from_name", "Tapu Takip Merkezi");
+    requestData.append("name", `${formData.isim} ${formData.soyisim}`);
+    requestData.append("phone", formData.telefon);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: requestData,
+      });
+      const data = await response.json();
+
+      if (!data.success) throw new Error("Form gönderilemedi");
+
+      setFormStatus("success");
       setFormData({ isim: "", soyisim: "", telefon: "" });
-      setTimeout(() => setSearchFeedback(""), 8000);
-    }, 1500);
+    } catch {
+      setFormStatus("error");
+    }
   };
 
   return (
@@ -64,10 +76,10 @@ const Hero = () => {
               </div>
               <div>
                 <h3 className="font-black text-slate-800 text-xl tracking-tight leading-none mb-1 uppercase">
-                  Anlık Durum Sorgula
+                  Danışmanlık Talebi
                 </h3>
                 <p className="text-sm text-slate-400 font-bold uppercase tracking-wider">
-                  İşlem Takip ve Bildirim
+                  Bölge Uzmanına Yönlendirme
                 </p>
               </div>
             </div>
@@ -121,19 +133,25 @@ const Hero = () => {
 
               <button
                 type="submit"
+                disabled={formStatus === "sending"}
                 className="w-full bg-blue-600 text-primary-foreground py-5 rounded-3xl font-black text-lg shadow-xl shadow-blue-100 transition-all hover:bg-blue-700 active:scale-[0.98] uppercase tracking-widest"
               >
-                {isSearching ? "İletiliyor..." : "Danışmanlık Talebi Gönder"}
+                {formStatus === "sending" ? "İletiliyor..." : "Danışmanlık Talebi Gönder"}
               </button>
 
               <p className="text-[10px] text-center text-slate-400 font-medium pt-2">
                 Verileriniz T.C. 6698 Sayılı Kanun kapsamında korunmaktadır.
               </p>
 
-              {searchFeedback && (
+              {formStatus === "success" && (
                 <div className="p-5 bg-emerald-50 text-emerald-800 rounded-2xl text-xs font-bold flex items-start gap-3 border border-emerald-100 animate-fade-in">
                   <CheckCircle2 className="shrink-0 text-emerald-600" />
-                  {searchFeedback}
+                  Talebiniz alındı. Bölge uzmanımız sizi 0532 055 09 45 hattından arayacaktır.
+                </div>
+              )}
+              {formStatus === "error" && (
+                <div className="p-5 bg-red-50 text-red-800 rounded-2xl text-xs font-bold border border-red-100 animate-fade-in">
+                  Talebiniz şu anda iletilemedi. Lütfen tekrar deneyin veya 0532 055 09 45 numarasını arayın.
                 </div>
               )}
             </form>
@@ -141,8 +159,8 @@ const Hero = () => {
             <div className="bg-blue-50/50 rounded-2xl p-5 border border-dashed border-blue-200 flex items-start gap-3">
               <Info size={20} className="text-blue-500 shrink-0" />
               <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-relaxed">
-                Bilgilerinizi girdiğinizde, ilgili bölge uzmanımız sizi 0532 055
-                09 45 hattımızdan arayarak dosya durumunu bildirecektir.
+                Bilgilerinizi gönderdiğinizde, ilgili bölge uzmanımız sizi 0532 055
+                09 45 hattından arayarak danışmanlık talebiniz için bilgi verecektir.
               </p>
             </div>
           </div>
